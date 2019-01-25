@@ -1,0 +1,96 @@
+2018-12-15 01:18:53,866 ERROR: Exception on /index [GET] [in c:\users\dell\work\networks\networks_venv\lib\site-packages\flask\app.py:1761]
+Traceback (most recent call last):
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\flask\app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\flask\app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\flask\app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\flask\_compat.py", line 35, in reraise
+    raise value
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\flask\app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\flask_login\utils.py", line 261, in decorated_view
+    return func(*args, **kwargs)
+  File "C:\Users\DELL\work\networks\app\routes.py", line 31, in index
+    posts=posts)
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\flask\templating.py", line 135, in render_template
+    context, ctx.app)
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\flask\templating.py", line 117, in _render
+    rv = template.render(context)
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\jinja2\asyncsupport.py", line 76, in render
+    return original_render(self, *args, **kwargs)
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\jinja2\environment.py", line 1008, in render
+    return self.environment.handle_exception(exc_info, True)
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\jinja2\environment.py", line 780, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\jinja2\_compat.py", line 37, in reraise
+    raise value.with_traceback(tb)
+  File "C:\Users\DELL\work\networks\app\templates\index.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\DELL\work\networks\app\templates\base.html", line 30, in top-level template code
+    {% block content %}{% endblock %}
+  File "C:\Users\DELL\work\networks\app\templates\index.html", line 19, in block "content"
+    {% include '_post.html' %}
+  File "C:\Users\DELL\work\networks\app\templates\_post.html", line 3, in top-level template code
+    <td><img src="{{ post.author.avatar(36) }}"></td>
+  File "C:\Users\DELL\work\networks\app\models.py", line 43, in avatar
+    md5(self.email.lower()).hexdigest(), urllib.urlencode({'d': default, 's': str(size)}))
+TypeError: Unicode-objects must be encoded before hashing
+2018-12-15 01:20:04,391 INFO: Microblog startup [in C:\Users\DELL\work\networks\app\__init__.py:44]
+2018-12-15 01:20:08,876 ERROR: Exception on /user/zhak [GET] [in c:\users\dell\work\networks\networks_venv\lib\site-packages\flask\app.py:1761]
+Traceback (most recent call last):
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\flask\app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\flask\app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\flask\app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\flask\_compat.py", line 35, in reraise
+    raise value
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\flask\app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\flask_login\utils.py", line 261, in decorated_view
+    return func(*args, **kwargs)
+  File "C:\Users\DELL\work\networks\app\routes.py", line 81, in user
+    return render_template('user.html', user=user, posts=posts)
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\flask\templating.py", line 135, in render_template
+    context, ctx.app)
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\flask\templating.py", line 117, in _render
+    rv = template.render(context)
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\jinja2\asyncsupport.py", line 76, in render
+    return original_render(self, *args, **kwargs)
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\jinja2\environment.py", line 1008, in render
+    return self.environment.handle_exception(exc_info, True)
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\jinja2\environment.py", line 780, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "c:\users\dell\work\networks\networks_venv\lib\site-packages\jinja2\_compat.py", line 37, in reraise
+    raise value.with_traceback(tb)
+  File "C:\Users\DELL\work\networks\app\templates\user.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\Users\DELL\work\networks\app\templates\base.html", line 30, in top-level template code
+    {% block content %}{% endblock %}
+  File "C:\Users\DELL\work\networks\app\templates\user.html", line 6, in block "content"
+    <!--{{ user.avatar(128) }}-->
+  File "C:\Users\DELL\work\networks\app\models.py", line 43, in avatar
+    md5(self.email.lower().encode('utf-8')).hexdigest(), urllib.urlencode({'d': default, 's': str(size)}))
+AttributeError: module 'urllib' has no attribute 'urlencode'
+2018-12-15 01:22:38,137 INFO: Microblog startup [in C:\Users\DELL\work\networks\app\__init__.py:44]
+2018-12-15 01:24:48,660 INFO: Microblog startup [in C:\Users\DELL\work\networks\app\__init__.py:44]
+2018-12-15 01:25:51,994 INFO: Microblog startup [in C:\Users\DELL\work\networks\app\__init__.py:44]
+2018-12-15 01:28:27,412 INFO: Microblog startup [in C:\Users\DELL\work\networks\app\__init__.py:44]
+2018-12-15 01:30:30,598 INFO: Microblog startup [in C:\Users\DELL\work\networks\app\__init__.py:44]
+2018-12-15 01:33:34,156 INFO: Microblog startup [in C:\Users\DELL\work\networks\app\__init__.py:44]
+2018-12-15 01:34:11,473 INFO: Microblog startup [in C:\Users\DELL\work\networks\app\__init__.py:44]
+2018-12-15 01:37:34,541 INFO: Microblog startup [in C:\Users\DELL\work\networks\app\__init__.py:44]
+2018-12-20 20:40:30,809 INFO: Microblog startup [in C:\Users\DELL\work\networks\app\__init__.py:44]
+2018-12-20 21:05:47,278 INFO: Microblog startup [in C:\Users\DELL\work\networks\app\__init__.py:44]
+2018-12-20 21:11:09,884 INFO: Microblog startup [in C:\Users\DELL\work\networks\app\__init__.py:44]
+2018-12-20 21:13:04,702 INFO: Microblog startup [in C:\Users\DELL\work\networks\app\__init__.py:44]
+2018-12-20 21:14:13,422 INFO: Microblog startup [in C:\Users\DELL\work\networks\app\__init__.py:44]
+2018-12-20 21:18:31,526 INFO: Microblog startup [in C:\Users\DELL\work\networks\app\__init__.py:44]
+2018-12-20 21:20:01,804 INFO: Microblog startup [in C:\Users\DELL\work\networks\app\__init__.py:44]

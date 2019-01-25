@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    <!--<td><img srcset="https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg"-->
+             <!--src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg"-->
+             <!--alt="Image not found" width="128" height="128"></td>-->
+
+    <table class="table table-hover">
+        <tr>
+            <td width="256px"><img src="{{ user.avatar(256) }}"></td>
+
+            <td>
+                <h1>Пользователь: {{ user.username }}</h1>
+                {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif%}
+                {% if user.last_seen %}
+                <p>
+                    Последний раз был: {{ moment(user.last_seen).calendar() }}
+                </p>{% endif%}
+                <p>{{ user.followers.count() }} подписчиков</p>
+                <p>Подписки: {{ user.followed.count() }}</p>
+                {% if user == current_user %}
+                <p>
+                    <a href="{{ url_for('edit_profile') }}">
+                        Редактировать профиль
+                    </a>
+                </p>
+                {% elif not current_user.is_following(user) %}
+                <p><a href="{{ url_for('follow', username=user.username) }}">Подписаться</a></p>
+                {% else %}
+                <p><a href="{{ url_for('unfollow', username=user.username) }}">Отписаться</a></p>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+    <hr>
+    {% for post in posts %}
+        {% include '_post.html' %}
+    {% endfor %}
+    <nav aria-label="...">
+        <ul class="pager">
+            <li class="previous{% if not prev_url %} disabled{% endif %}">
+                <a href="{{ prev_url or '#' }}">
+                    <span aria-hidden="true">&larr;</span> Следующее
+                </a>
+            </li>
+            <li class="next{% if not next_url %} disabled{% endif %}">
+                <a href="{{ next_url or '#' }}">
+                    Предыдущее <span aria-hidden="true">&rarr;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+{% endblock %}
