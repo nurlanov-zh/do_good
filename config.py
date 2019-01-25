@@ -18,3 +18,6 @@ class Config(object):
     POSTS_PER_PAGE = 4
 
     LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')
+    IP_TRACKABLE = True
+
+    GeoIPDatabase = r'GeoLite2-City/GeoLite2-City.mmdb'

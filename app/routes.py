@@ -41,8 +41,17 @@ def index():
 
 @my_app.route('/login', methods=['GET', 'POST'])
 def login():
+    if my_app.config['IP_TRACKABLE']:
+        if 'X-Forwarded-For' in request.headers:
+            remote_addr = request.headers.getlist("X-Forwarded-For")[0].rpartition(' ')[-1]
+        else:
+            remote_addr = request.remote_addr or 'untrackable'
+
     if current_user.is_authenticated:
+        current_user.set_location(remote_addr)
+        db.session.commit()
         return redirect(url_for('index'))
+
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -53,6 +62,9 @@ def login():
             flash(u'Неверный пароль. Проверьте свое имя пользователя или пароль и повторите попытку.')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
+        user.set_location(remote_addr)
+        db.session.commit()
+
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('index')
@@ -68,12 +80,22 @@ def logout():
 
 @my_app.route('/register', methods=['GET', 'POST'])
 def register():
+    if my_app.config['IP_TRACKABLE']:
+        if 'X-Forwarded-For' in request.headers:
+            remote_addr = request.headers.getlist("X-Forwarded-For")[0].rpartition(' ')[-1]
+        else:
+            remote_addr = request.remote_addr or 'untrackable'
+
     if current_user.is_authenticated:
+        current_user.set_location(remote_addr)
+        db.session.commit()
         return redirect(url_for('index'))
+
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(username=form.username.data, email=form.email.data)
         user.set_password(form.password.data)
+        user.set_location(remote_addr)
         db.session.add(user)
         db.session.commit()
         flash('Поздравляем, Вы зарегистрированы!')

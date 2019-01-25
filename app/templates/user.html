@@ -14,8 +14,44 @@
                 {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif%}
                 {% if user.last_seen %}
                 <p>
-                    Последний раз был: {{ moment(user.last_seen).calendar() }}
+                    Последний раз был: {{ moment(user.last_seen).format('LLLL') }}
                 </p>{% endif%}
+                {% if user.current_login_ip %}
+                <p>
+                    С IP адреса: {{ user.current_login_ip }}
+                </p>
+                {% endif%}
+
+                {% if user.country_iso_code %}
+                <p>
+                    Из страны: {{ user.country_name }}, {{ user.country_iso_code }}
+                </p>
+                {% endif%}
+
+                {% if user.subdivisions_iso_code %}
+                <p>
+                    Региона: {{ user.subdivisions_name }}, {{ user.subdivisions_iso_code }}
+                </p>
+                {% endif%}
+
+                {% if user.city_name %}
+                <p>
+                    Города: {{ user.city_name }}
+                </p>
+                {% endif%}
+
+                {% if user.postal_code %}
+                <p>
+                    С почтовым индексом: {{ user.postal_code }}
+                </p>
+                {% endif%}
+
+                {% if user.location_latitude %}
+                <p>
+                    Из места: {{ user.location_latitude }} широты, {{ user.location_longitude }} долготы
+                </p>
+                {% endif%}
+
                 <p>{{ user.followers.count() }} подписчиков</p>
                 <p>Подписки: {{ user.followed.count() }}</p>
                 {% if user == current_user %}

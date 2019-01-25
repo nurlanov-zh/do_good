@@ -1,10 +1,11 @@
 from datetime import datetime
-from app import db
+from app import my_app, db
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from app import login
 from hashlib import md5
 from app import avatars
+import geoip2.database
 
 
 followers = db.Table('followers',
@@ -20,6 +21,16 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     about_me = db.Column(db.String(140))
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+    last_login_ip = db.Column(db.String(40))
+    current_login_ip = db.Column(db.String(40))
+    country_iso_code = db.Column(db.String(128))
+    country_name = db.Column(db.String(128))
+    subdivisions_name = db.Column(db.String(128))
+    subdivisions_iso_code = db.Column(db.String(128))
+    city_name = db.Column(db.String(128))
+    postal_code = db.Column(db.String(128))
+    location_latitude = db.Column(db.String(128))
+    location_longitude = db.Column(db.String(128))
 
     posts = db.relationship('Post', backref='author', lazy='dynamic')
 
@@ -61,6 +72,34 @@ class User(UserMixin, db.Model):
         own = Post.query.filter_by(user_id=self.id)
         return followed.union(own).order_by(Post.timestamp.desc())
 
+    def set_location(self, remote_addr):
+        old_current_ip, new_current_ip = self.current_login_ip, remote_addr
+
+        self.last_login_ip = old_current_ip or new_current_ip
+        self.current_login_ip = new_current_ip
+
+        if old_current_ip != new_current_ip:
+            reader = geoip2.database.Reader(my_app.config['GeoIPDatabase'])
+            success = False
+            try:
+                response = reader.city(new_current_ip)
+                success = True
+            except:
+                success = False
+                # print("An exception occurred")
+
+            if success:
+                self.country_iso_code = response.country.iso_code
+                self.country_name = response.country.name
+                self.subdivisions_name = response.subdivisions.most_specific.name
+                self.subdivisions_iso_code = response.subdivisions.most_specific.iso_code
+                self.city_name = response.city.name
+                self.postal_code = response.postal.code
+                self.location_latitude = response.location.latitude
+                self.location_longitude = response.location.longitude
+
+            reader.close()
+
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -69,7 +108,7 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return '<Сообщение {}>'.format(self.body)
+        return '<Запрос {}>'.format(self.body)
 
 
 @login.user_loader
