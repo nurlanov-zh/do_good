@@ -1,10 +1,10 @@
 # Do Good and Run Away. 
-Web project made using Flask.
+Web project made using Flask. 
+
+Server is working on heroku platform:
+
+https://do-good-and-run-away.herokuapp.com
+
 # How to install and run.
-$ python3 -m venv venv
+pip install -r requirements.txt
 
-$ source venv/bin/activate
-
-(venv) $ pip install -r requirements.txt
-
-(venv) $ pip install gunicorn pymysql
