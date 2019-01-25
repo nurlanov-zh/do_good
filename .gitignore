@@ -1,6 +1,7 @@
 *.py[cod]
 .idea*
-git 
+.idea/
+
 # C extensions
 *.so
 
