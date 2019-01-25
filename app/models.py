@@ -7,6 +7,7 @@ from hashlib import md5
 from app import avatars
 import geoip2.database
 
+GeoIPDatabase = r'GeoLite2-City/GeoLite2-City.mmdb'
 
 followers = db.Table('followers',
     db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
@@ -79,7 +80,7 @@ class User(UserMixin, db.Model):
         self.current_login_ip = new_current_ip
 
         if old_current_ip != new_current_ip:
-            reader = geoip2.database.Reader(my_app.config['GeoIPDatabase'])
+            reader = geoip2.database.Reader(GeoIPDatabase)
             success = False
             try:
                 response = reader.city(new_current_ip)

@@ -12,8 +12,15 @@ from app.models import Post
 @my_app.before_request
 def before_request():
     if current_user.is_authenticated:
+        if my_app.config['IP_TRACKABLE']:
+            if 'X-Forwarded-For' in request.headers:
+                remote_addr = request.headers.getlist("X-Forwarded-For")[0].rpartition(' ')[-1]
+            else:
+                remote_addr = request.remote_addr or 'untrackable'
         current_user.last_seen = datetime.utcnow()
+        current_user.set_location(remote_addr)
         db.session.commit()
+
 
 @my_app.route('/', methods=['GET', 'POST'])
 @my_app.route('/index', methods=['GET', 'POST'])
