@@ -1,0 +1,1 @@
+web: flask db upgrade; gunicorn do_good:my_app
