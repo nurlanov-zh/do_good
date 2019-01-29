@@ -1,12 +1,26 @@
 {% extends "base.html" %}
 {% import 'bootstrap/wtf.html' as wtf %}
 
+{% block head %}
+    {{super()}}
+    {% if mymap %}
+    {{mymap.js}}
+    {% endif %}
+{% endblock %}
+
+
 {% block app_content %}
-    <h1>{{ current_user.username }}</h1>
+    {% if mymap %}
+    <h1>Карта пользователей</h1>
+        {{mymap.html}}
+    {% endif %}
+
     {% if form %}
+    <h1>{{ current_user.username }}</h1>
         {{ wtf.quick_form(form) }}
     <br>
     {% endif %}
+    <br>
     {% for post in posts %}
         {% include '_post.html' %}
     {% endfor %}

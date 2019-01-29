@@ -7,6 +7,8 @@ from app.forms import RegistrationForm, EditProfileForm, LoginForm
 from datetime import datetime
 from app.forms import PostForm
 from app.models import Post
+from flask_googlemaps import Map
+from app import googlemap
 
 
 @my_app.before_request
@@ -183,5 +185,32 @@ def explore():
         if posts.has_next else None
     prev_url = url_for('explore', page=posts.prev_num) \
         if posts.has_prev else None
+
+    markers = list()
+    users = User.query.filter(User.id == Post.user_id and Post.body in posts.items)
+    for user_ in users:
+        if user_.location_longitude and user_.location_latitude:
+            marker = {'icon': 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+                      'lat': float(user_.location_latitude),
+                      'lng': float(user_.location_longitude),
+                      'infobox': Post.query.filter(Post.user_id == user_.id and Post.body in posts.items)}
+            markers.append(marker)
+
+    if current_user.location_latitude and current_user.location_longitude:
+        mymap = Map(
+            identifier="view-side",
+            lat=float(current_user.location_latitude),
+            lng=float(current_user.location_longitude),
+            markers=markers
+        )
+    else:
+        mymap = Map(
+            identifier="view-side",
+            lat=37.4419,
+            lng=-122.1419,
+            markers=markers,
+            center_on_user_location=True
+        )
     return render_template('index.html', title='Запросы', posts=posts.items,
-                           next_url=next_url, prev_url=prev_url)
+                           next_url=next_url, prev_url=prev_url, mymap=mymap)
+

@@ -9,6 +9,7 @@ from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 from flask_avatars import Avatars
 from flask_moment import Moment
+from flask_googlemaps import GoogleMaps
 
 
 my_app = Flask(__name__)
@@ -21,6 +22,7 @@ migrate = Migrate(my_app, db)
 login = LoginManager(my_app)
 login.login_view = 'login'
 login.login_message = "Пожалуйста, войдите, чтобы открыть эту страницу"
+googlemap = GoogleMaps(my_app)#, key=my_app.config['GOOGLEMAPS_KEY'])
 
 if not my_app.debug:
     if my_app.config['MAIL_SERVER']:

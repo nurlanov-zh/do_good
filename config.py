@@ -19,4 +19,4 @@ class Config(object):
 
     LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')
     IP_TRACKABLE = True
-
+    # GOOGLEMAPS_KEY = "8JZ7i18MjFuM35dJHq70n3Hx4"
